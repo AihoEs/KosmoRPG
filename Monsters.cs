@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +16,7 @@ namespace Monster
         public int HP;
         public int Damage;
         public Things DropItem;
+        public int MonsterXP;
 
 
         public int Level;
@@ -34,6 +35,7 @@ namespace Monster
             Damage = (35 * Level / 5) + 10;
             Level = new Random().Next(0, player.Level);
             DropItem = Food.WolfMeat;
+            MonsterXP = 20;
 
 
         }
@@ -55,6 +57,7 @@ namespace Monster
             HP = 20;
             Damage = Damage = (15* Level / 5) + 10;
             Level = new Random().Next(0, player.Level);
+            MonsterXP = 15;
             
         }
     }
@@ -67,6 +70,7 @@ namespace Monster
             Damage = Damage = (50 * Level / 5) + 10;
             Level = new Random().Next(0, player.Level);
             DropItem = Food.BearMeat;
+            MonsterXP = 45;
         }
         public void AttackPlayer(Player player)
         {
