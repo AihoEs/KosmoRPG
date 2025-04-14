@@ -13,7 +13,7 @@ namespace Event
 {
     class Events
     {
-        public static bool KnowNorthTown = true;
+        public static bool KnowNorthTown = false;
         
         public static void Mysterious_Table(Player player)
         {
