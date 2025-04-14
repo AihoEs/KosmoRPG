@@ -1,4 +1,4 @@
-﻿using Fauna;
+using Fauna;
 using Programer;
 using System;
 using System.Collections.Generic;
