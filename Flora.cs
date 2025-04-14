@@ -8,6 +8,7 @@ using Programer;
 using Monster;
 using System.Numerics;
 using System.Threading;
+using Event;
 
 namespace Fauna;
 
@@ -64,12 +65,14 @@ class Forest
 
         int choise = int.Parse(Console.ReadLine());
 
+        
 
 
         switch (choise)
         {
             case 5:
                 Forest.WoodExp(player, Things.Wood, Invent);
+                player.Language_Knowledge += 5;
                 break;
             case 6:
                 Forest.StoneExp(player, Things.Stone, Invent);
@@ -85,7 +88,7 @@ class Forest
         
     }
 
-    public static void MetMonster(Monsterin monster, Player player,List<Things> Invent)
+    public static void MetMonster(Monsterin monster, Player player, List<Things> Invent)
     {
         
         Random rand = new Random();
@@ -101,7 +104,7 @@ class Forest
             monster = new Slime(player);
 
         Console.WriteLine($"Вы встретили {monster.Name}!");
-        player.Fight(player, monster, Invent );
+        player.Fight(player, monster, Invent);
     }
     
 }

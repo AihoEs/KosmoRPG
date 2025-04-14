@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,7 +55,7 @@ namespace Monster
         {
             Name = "Slime";
             HP = 20;
-            Damage = Damage = (15* Level / 5) + 10;
+            Damage = Damage + (15* Level / 5) + 10;
             Level = new Random().Next(0, player.Level);
             MonsterXP = 15;
             
@@ -67,7 +67,7 @@ namespace Monster
         {
             Name = "Bear";
             HP = 120;
-            Damage = Damage = (50 * Level / 5) + 10;
+            Damage = Damage + (50 * Level / 5) + 10;
             Level = new Random().Next(0, player.Level);
             DropItem = Food.BearMeat;
             MonsterXP = 45;
@@ -81,6 +81,22 @@ namespace Monster
                 player.HP -= Damage / 3;
             }
         }
+    }
+    class Bandit : Monsterin
+    {
+
+        
+
+        public Bandit(Player player) //С него выпадает Золотая Цепочка,Серебряная цепочка или 5 монет
+        {
+            Name = "Bandit";
+            HP = 100;
+            Damage = Damage + (30 * Level / 5) + 10;
+            Level = new Random().Next(0, player.Level);
+            DropItem = null;
+            MonsterXP = 30;
+        }
+        
     }
 
 }

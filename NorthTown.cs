@@ -1,4 +1,4 @@
-using Fauna;
+﻿using Fauna;
 using Programer;
 using System;
 using System.Collections.Generic;
@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Thing;
 using Monster;
+using Event;
 
 namespace NT
 {
@@ -53,7 +54,7 @@ namespace NT
                         
 
                 case "no":
-                    Forest.EnterToForest(player, Invent );
+                    Forest.EnterToForest(player, Invent);
                     break;
 
                     
@@ -65,8 +66,22 @@ namespace NT
             Console.WriteLine("Вы вошли в шумный город.Куда вы отправитесь?");
 
             while (true)
+
             {
-                Console.WriteLine("1.Магазин");
+                
+                if(new Random().Next(1, 10) == 2)
+                {
+                    TownEvents.BanditAttack(player, Invent);
+                }
+                else if(player.Reputation >= 15)
+                {
+                    var rand = new Random().Next(1, 30);
+                    if(rand == 2)
+                    {
+                        TownEvents.BanditAttack(player, Invent);
+                    }
+                }
+                    Console.WriteLine("1.Магазин");
                 Console.WriteLine("2.Таверна");
                 Console.WriteLine("3.Кузница");
                 Console.WriteLine("4.Выйти из города");
@@ -84,6 +99,7 @@ namespace NT
                     case 2:
                         break;
                     case 3:
+                        Smith.UpgradeWeapon(player, Invent);
                         break;
                     case 4:
                         NorthTown.EnterToTown(player, Invent);

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Threading.Channels;
 using Fauna;
@@ -9,6 +9,7 @@ using System.Security.Policy;
 using NT;
 using Thing;
 using static Thing.Shop;
+using System.Security.Cryptography.X509Certificates;
 
 
 // PLAYER + INVENTORY + MAIN CLASS
@@ -18,6 +19,15 @@ namespace Programer
         Nonspeaking,
         Speaking,
         Native
+
+    }
+
+    enum PReputation
+    {
+        UnFamous,
+        Citizen,
+        LocalStar,
+        Famous
 
     }
     class Player
@@ -40,6 +50,11 @@ namespace Programer
 
         public bool HaveStoneAxe = false;
         public bool HaveFire = false;
+
+        public bool HaveReputation;
+
+        public bool PlayerWin { get; set; }
+        public bool PlayerLose { get; set; }
         public Knowledge GetLanguageTier()
         {
             if (Language_Knowledge < 20)
@@ -48,6 +63,17 @@ namespace Programer
                 return Knowledge.Speaking;
             else
                 return Knowledge.Native;
+        }
+        public PReputation GetRepTier()
+        {
+            if (Reputation < 5)
+                return PReputation.UnFamous;
+            else if (Reputation <= 10)
+                return PReputation.Citizen;
+            else if (Reputation <= 15)
+                return PReputation.LocalStar;
+            else
+                return PReputation.Famous;
         }
 
         public void NextLevel(Player player)
@@ -94,6 +120,21 @@ namespace Programer
             player.Energy += 10;
             Console.WriteLine($"У вас осталось {player.HP} ХП!");
 
+
+
+        }
+        public void Win(Player player,Monsterin monster, List<Things> Invent)
+        {
+            Console.WriteLine("Вы победили");
+            Invent.Add(monster.DropItem);
+            player.XP += monster.MonsterXP;
+        }
+
+        public void Lose(Player player,Monsterin monster,List<Things> Invent)
+        {
+            Console.WriteLine("Вы погибли");
+            Invent.Clear();
+            Forest.EnterToForest(player,Invent);
         }
         public void Fight(Player player, Monsterin monster, List<Things> Invent)
         {
@@ -102,22 +143,16 @@ namespace Programer
                 player.Damage += CraftItems.StoneAxe.TDamage;
             }
              
-            if (HaveFire == true)
-            {
-                Food.WolfMeat.TName = "Жаренное мясо Волка";
-                Food.WolfMeat.EnergyAm += 15;
-                Food.WolfMeat.HPAM += 10;
-
-
-                Food.BearMeat.TName = "Жаренное мясо Медведя";
-                Food.BearMeat.EnergyAm += 15;
-                Food.BearMeat.HPAM += 10;
-                
-            }
+            
 
             Console.WriteLine("Вы начал бой,что будете делать?");
             Console.WriteLine("1.Атаковать");
             Console.WriteLine("2.Защищаться");
+
+            player.PlayerWin = false;
+            player.PlayerLose = false;
+
+            
 
             while (true)
             {
@@ -147,16 +182,15 @@ namespace Programer
                     }
                     if (player.HP <= 0 || player.Energy <= 0)
                     {
-                        Console.WriteLine("Вы погибли");
-                        Invent.Clear();
+                        player.Lose(player, monster, Invent);
+                        PlayerLose = true;
                         break;
                     }
 
                     else if (monster.HP <= 0)
                     {
-                        Console.WriteLine("Вы победили");
-                        Invent.Add(monster.DropItem);
-                        player.XP += monster.MonsterXP;
+                        player.Win(player, monster, Invent);
+                        PlayerWin = true;
                         break;
                     }
                 }
@@ -310,25 +344,28 @@ namespace Programer
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             List<Things> Invent = new List<Things>();
-            Monsterin monster = null;
-            Player player = new Player(100, 20, 100, 0, 15, 0, 100, 100);
             
+            Monsterin monster = null;
+            Player player = new Player(100, 20, 100, 45, 15, 0, 100, 100);
+
+
             while (true)
             {
                 Forest.EnterToForest(player, Invent);
-                
 
+                Reputation.GetReputation(player);
 
+                    
                 if (new Random().Next(1, 6) == 2)
                 {
                     Forest.MetMonster(monster, player, Invent);
                 }
 
-                if (new Random().Next(1,10) == 2)
+                if (new Random().Next(1,15) == 2)
                 {
                     Events.Mysterious_Table(player);
                 }
-                if (new Random().Next(1,15) == 2)
+                if (new Random().Next(1,20) == 2)
                 {
                     Events evi = new Events();
                     evi.Mysterious_Table_NorthTown(player);
