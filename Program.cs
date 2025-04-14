@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Threading.Channels;
 using Fauna;
@@ -28,8 +28,15 @@ namespace Programer
        public int Energy;
        public int Language_Knowledge = 0;
        public int Level;
+        public int XP;
+        public int XPtoLevel = 20;
        public int Reputation = 0;
         public int Money = 0;
+
+
+
+        public int EnergyMax = 100;
+        public int HPMax = 100;
 
         public bool HaveStoneAxe = false;
         public bool HaveFire = false;
@@ -43,8 +50,21 @@ namespace Programer
                 return Knowledge.Native;
         }
 
+        public void NextLevel(Player player)
+        {
+            if (XP >= XPtoLevel)
+            {
+                XPtoLevel += 5;
+                XP = 0;
+                Level += 1;
 
-        public Player(int hp, int damage,int energy, int lang, int level, int reputation)
+                player.HP += 50;
+                player.Energy += 50;
+            }
+        }
+
+
+        public Player(int hp, int damage,int energy, int lang, int level, int reputation, int energymax,int hpmax )
         {
             HP = hp;
             Damage = damage * level / 3 + 10;
@@ -52,6 +72,8 @@ namespace Programer
             Language_Knowledge = lang;
             Level = level;
             Reputation = reputation;
+            EnergyMax = energymax + (100 * level / 3 + 10);
+            HPMax = hpmax + (100 * level / 3 + 10);
         }
 
       
@@ -79,7 +101,7 @@ namespace Programer
             {
                 player.Damage += CraftItems.StoneAxe.TDamage;
             }
-
+             
             if (HaveFire == true)
             {
                 Food.WolfMeat.TName = "Жаренное мясо Волка";
@@ -90,6 +112,7 @@ namespace Programer
                 Food.BearMeat.TName = "Жаренное мясо Медведя";
                 Food.BearMeat.EnergyAm += 15;
                 Food.BearMeat.HPAM += 10;
+                
             }
 
             Console.WriteLine("Вы начал бой,что будете делать?");
@@ -132,8 +155,8 @@ namespace Programer
                     else if (monster.HP <= 0)
                     {
                         Console.WriteLine("Вы победили");
-                        Level += 1;
                         Invent.Add(monster.DropItem);
+                        player.XP += monster.MonsterXP;
                         break;
                     }
                 }
@@ -147,12 +170,17 @@ namespace Programer
         {
             Console.WriteLine("Ваши характеристики:");
             Console.WriteLine("HP:" + player.HP);
+            Console.WriteLine("HP max:" + player.HPMax);
             Console.WriteLine("Damage:" + player.Damage);
             Console.WriteLine("Energy:" + player.Energy);
-            Console.WriteLine("Level:" + player.Level);
+            Console.WriteLine("Energy max:" + player.EnergyMax);
             Console.WriteLine("Language knowledge:" + player.Language_Knowledge);
             Console.WriteLine("Reputation:" + player.Reputation);
             Console.WriteLine("Money:" + player.Money);
+
+            Console.WriteLine("Level:" + player.Level);
+            Console.WriteLine("XP:" + player.XP);
+            Console.WriteLine("XP to next Level: " + player.XPtoLevel);
         }
             
             
@@ -283,7 +311,7 @@ namespace Programer
 
             List<Things> Invent = new List<Things>();
             Monsterin monster = null;
-            Player player = new Player(100, 20, 100, 0, 0, 0);
+            Player player = new Player(100, 20, 100, 0, 15, 0, 100, 100);
             
             while (true)
             {
@@ -291,16 +319,16 @@ namespace Programer
                 
 
 
-                if (new Random().Next(1, 100) == 2)
+                if (new Random().Next(1, 6) == 2)
                 {
                     Forest.MetMonster(monster, player, Invent);
                 }
 
-                if (new Random().Next(1,5) == 2)
+                if (new Random().Next(1,10) == 2)
                 {
                     Events.Mysterious_Table(player);
                 }
-                if (new Random().Next(1,3) == 2)
+                if (new Random().Next(1,15) == 2)
                 {
                     Events evi = new Events();
                     evi.Mysterious_Table_NorthTown(player);
