@@ -1,4 +1,6 @@
-﻿using Fauna;
+﻿using Event;
+using Fauna;
+using NT;
 using Programer;
 using System;
 using System.Collections.Generic;
@@ -6,20 +8,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Thing;
-using Monster;
-using Event;
 
-namespace NT
+namespace East
 {
-    class NorthTown
+    class EastTown
     {
-        public static void EnterToTown(Player player,List<Things> Invent)
+        public static void EnterToTown(Player player, List<Things> Invent)
         {
-            Console.WriteLine("Ты стоишь перед воротами северного города.Рядом ты видишь стражников,стоит подойти к ним?");
+            Console.WriteLine("Ты стоишь перед воротами восточного города.Рядом ты видишь стражников,стоит подойти к ним?");
             Console.WriteLine("yes");
             Console.WriteLine("no");
             string choise = Console.ReadLine().Trim().ToLower();
-            
+
 
             switch (choise)
             {
@@ -48,18 +48,18 @@ namespace NT
                             Console.WriteLine("Вы подошли к стражникам,которые стали вам уже чуть ли не друзьями,вы радостно обменялись приветствием и вошли в город");
                             NorthTown.City(player, Invent);
                             break;
-                            
+
                     }
                     break;
-                        
+
 
                 case "no":
                     Forest.EnterToForest(player, Invent);
                     break;
 
-                    
+
             }
-            
+
         }
         public static void City(Player player, List<Things> Invent)
         {
@@ -68,33 +68,33 @@ namespace NT
             while (true)
 
             {
-                
-                if(new Random().Next(1, 10) == 2)
+
+                if (new Random().Next(1, 10) == 2)
                 {
                     TownEvents.BanditAttack(player, Invent);
                 }
-                else if(player.Reputation >= 15)
+                else if (player.Reputation >= 15)
                 {
                     var rand = new Random().Next(1, 30);
-                    if(rand == 2)
+                    if (rand == 2)
                     {
                         TownEvents.BanditAttack(player, Invent);
                     }
                 }
-                    Console.WriteLine("1.Магазин");
+                Console.WriteLine("1.Магазин");
                 Console.WriteLine("2.Рынок");
                 Console.WriteLine("3.Кузница");
                 Console.WriteLine("4.Выйти из города");
 
                 int choise = int.Parse(Console.ReadLine());
 
-                
+
 
                 switch (choise)
                 {
                     case 1:
-                        Shop shoper = new Shop(0,0,"null",0);
-                        shoper.ShopWIP(player,Invent);
+                        Shop shoper = new Shop(0, 0, "null", 0);
+                        shoper.ShopWIP(player, Invent);
                         break;
                     case 2:
                         Market.Shuk(player, Invent);
@@ -110,3 +110,6 @@ namespace NT
         }
     }
 }
+
+    
+

@@ -72,7 +72,6 @@ class Forest
         {
             case 5:
                 Forest.WoodExp(player, Things.Wood, Invent);
-                player.Language_Knowledge += 5;
                 break;
             case 6:
                 Forest.StoneExp(player, Things.Stone, Invent);

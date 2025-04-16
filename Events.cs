@@ -13,7 +13,9 @@ namespace Event
 {
     class Events
     {
-        public static bool KnowNorthTown = false;
+        public static bool KnowEastTown = false;
+        public static bool KnowSouthTown = false;
+        public static bool KnowNorthTown = true;
         
         public static void Mysterious_Table(Player player)
         {

@@ -10,6 +10,8 @@ using NT;
 using Thing;
 using static Thing.Shop;
 using System.Security.Cryptography.X509Certificates;
+using South;
+using East;
 
 
 // PLAYER + INVENTORY + MAIN CLASS
@@ -298,7 +300,10 @@ namespace Programer
             Console.WriteLine("2. Посмотреть характеристики");
             Console.WriteLine("3.Открыть меню крафта");
             Console.WriteLine("4.Отправиться в Северный город(Только если вы знайте дорогу туда!)");
-            
+            Console.WriteLine("5.Отправиться в Южный город(Только если вы знайте дорогу туда!)");
+            Console.WriteLine("6.Отправиться в Восточный город(Только если вы знайте дорогу туда!");
+
+
 
             int choise = int.Parse(Console.ReadLine());
 
@@ -314,7 +319,7 @@ namespace Programer
                      crafting.Craft(Invent, player);
                     break;
                 case 4:
-                    Events evi = new Events();
+
                     if(Events.KnowNorthTown == true)
                     {
                         NorthTown.EnterToTown(player, Invent);
@@ -324,6 +329,30 @@ namespace Programer
                         Console.WriteLine("Вы не знайте дорогу,вам нужно найти указатель");
                     }
                     break;
+                case 5:
+
+                    if (Events.KnowSouthTown == true)
+                    {
+                        SouthTown.EnterToTown(player, Invent);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Вы не знайте дорогу,вам нужно найти указатель");
+                    }
+                    break;
+
+                case 6:
+
+                    if (Events.KnowEastTown == true)
+                    {
+                        EastTown.EnterToTown(player, Invent);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Вы не знайте дорогу,вам нужно найти указатель");
+                    }
+                    break;
+
 
 
             }
@@ -346,7 +375,7 @@ namespace Programer
             List<Things> Invent = new List<Things>();
             
             Monsterin monster = null;
-            Player player = new Player(100, 20, 100, 45, 15, 0, 100, 100);
+            Player player = new Player(100, 20, 100, 45, 0, 0, 100, 100);
 
 
             while (true)
@@ -356,7 +385,7 @@ namespace Programer
                 Reputation.GetReputation(player);
 
                     
-                if (new Random().Next(1, 6) == 2)
+                if (new Random().Next(1, 5) == 2)
                 {
                     Forest.MetMonster(monster, player, Invent);
                 }

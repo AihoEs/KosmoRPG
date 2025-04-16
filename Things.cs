@@ -8,6 +8,8 @@ using Fauna;
 using System.Net.Mime;
 using Monster;
 using System.Net.Quic;
+using Event;
+using System.Net.Http.Headers;
 //THINGS CLASS
 namespace Thing
 {
@@ -87,6 +89,13 @@ namespace Thing
     {
         public static bool HaveSword = false;
         static Shop Sword = new Shop(20, 20, "Меч", 1);
+        static Shop SouthTownMap = new Shop(0, 15, "Карта Южного города", 1);
+        static Shop EastTownMap = new Shop(0, 15, "Карта Западного города", 1);
+
+        static Shop Iron = new Shop(0, 6, "Железо", 1);
+        static Shop Gold = new Shop(0, 9, "Золото", 1);
+        static Shop Crystal = new Shop(0, 13, "Кристалл", 1);
+
         public Shop(int tDamage, int tPrice, string tName, int tQuality) : base(tDamage, tPrice, tName, tQuality)
         {
 
@@ -120,6 +129,8 @@ namespace Thing
                             Food.WolfMeat.TPrice += 4;
                             Food.BearMeat.TPrice += 4;
                             Shop.Sword.TPrice += 4;
+                            Shop.SouthTownMap.TPrice += 4;
+                            Shop.EastTownMap.TPrice += 4;
                             break;
                         case PReputation.Citizen:
                             break;
@@ -127,11 +138,15 @@ namespace Thing
                             Food.WolfMeat.TPrice -= 2;
                             Food.BearMeat.TPrice -= 2;
                             Shop.Sword.TPrice -= 2;
+                            Shop.SouthTownMap.TPrice -= 2;
+                            Shop.EastTownMap.TPrice -= 2;
                             break;
                         case PReputation.Famous:
                             Food.WolfMeat.TPrice -= 4;
                             Food.BearMeat.TPrice -= 4;
                             Shop.Sword.TPrice -= 4;
+                            Shop.SouthTownMap.TPrice -= 4;
+                            Shop.EastTownMap.TPrice -= 4;
 
                             break;
                     }
@@ -141,87 +156,213 @@ namespace Thing
 
                     Console.WriteLine("Вы заходите в магазин,где вас встречает незнакомый вам причудливый торговец,предлагающий свои товары");
                     Console.WriteLine("Что хотите купить?");
-                    Console.WriteLine("1.Жареное мясо волка");
-                    Console.WriteLine("2. Жареное мясо медведя");
-                    Console.WriteLine("3. Меч");
-                    Console.WriteLine("4. Карта в Южный город");
-                    Console.WriteLine("5. Карта в Восточный город");
-                    Console.WriteLine("6.EXIT");
+                    Console.WriteLine("1.Еда");
+                    Console.WriteLine("2. Оружие");
+                    Console.WriteLine("3.Местность");
+                    Console.WriteLine("4.Материалы");
+                    Console.WriteLine("5.EXIT");
 
-                    int choise = int.Parse(Console.ReadLine());
-                    switch (choise)
+                    int input = int.Parse(Console.ReadLine());
+                    switch (input)
                     {
                         case 1:
-                            Console.WriteLine("Name:" + Food.WolfMeat.TName);
-                            Console.WriteLine("Price:" + Food.WolfMeat.TPrice);
-                            Console.WriteLine("HPAmount:" + Food.WolfMeat.HPAM);
-                            Console.WriteLine("EnergyAmount:" + Food.WolfMeat.EnergyAm);
-
-                            Console.WriteLine("Купить?");
-                            Console.WriteLine("y");
-                            Console.WriteLine("n");
-                            string choise1 = Console.ReadLine();
+                            Console.WriteLine("1.Жареное мясо волка");
+                            Console.WriteLine("2. Жареное мясо медведя");
+                            int choise1 = int.Parse(Console.ReadLine());
                             switch (choise1)
                             {
-                                case "y":
-                                    Invent.Add(Food.WolfMeat);
-                                    player.Money -= Food.WolfMeat.TPrice;
+                                case 1:
+
+                                    Console.WriteLine("Name:" + Food.WolfMeat.TName);
+                                    Console.WriteLine("Price:" + Food.WolfMeat.TPrice);
+                                    Console.WriteLine("HPAmount:" + Food.WolfMeat.HPAM);
+                                    Console.WriteLine("EnergyAmount:" + Food.WolfMeat.EnergyAm);
+
+                                    Console.WriteLine("Купить?");
+                                    Console.WriteLine("y");
+                                    Console.WriteLine("n");
+                                    string choise11 = Console.ReadLine();
+                                    switch (choise11)
+                                    {
+                                        case "y":
+                                            Invent.Add(Food.WolfMeat);
+                                            player.Money -= Food.WolfMeat.TPrice;
+                                            break;
+
+                                        case "n":
+                                            break;
+                                    }
                                     break;
 
-                                case "n":
+                                case 2:
+
+
+                                    Console.WriteLine("Name:" + Food.BearMeat.TName);
+                                    Console.WriteLine("Price:" + Food.BearMeat.TPrice);
+                                    Console.WriteLine("HPAmount:" + Food.BearMeat.HPAM);
+                                    Console.WriteLine("EnergyAmount:" + Food.BearMeat.EnergyAm);
+
+                                    Console.WriteLine("Купить?");
+                                    Console.WriteLine("y");
+                                    Console.WriteLine("n");
+                                    string choise22 = Console.ReadLine();
+                                    switch (choise22)
+                                    {
+                                        case "y":
+                                            Invent.Add(Food.BearMeat);
+                                            player.Money -= Food.BearMeat.TPrice;
+                                            break;
+
+                                        case "n":
+                                            break;
+                                    }
                                     break;
                             }
                             break;
                         case 2:
-
-                            Console.WriteLine("Name:" + Food.BearMeat.TName);
-                            Console.WriteLine("Price:" + Food.BearMeat.TPrice);
-                            Console.WriteLine("HPAmount:" + Food.BearMeat.HPAM);
-                            Console.WriteLine("EnergyAmount:" + Food.BearMeat.EnergyAm);
-
-                            Console.WriteLine("Купить?");
-                            Console.WriteLine("y");
-                            Console.WriteLine("n");
-                            string choise2 = Console.ReadLine();
-                            switch (choise2)
+                            Console.WriteLine("1.Меч");
+                            int choise3 = int.Parse(Console.ReadLine());
+                            switch (choise3)
                             {
-                                case "y":
-                                    Invent.Add(Food.BearMeat);
-                                    player.Money -= Food.BearMeat.TPrice;
+                                case 1:
+                                    Console.WriteLine("Name:" + Sword.TName);
+                                    Console.WriteLine("Price:" + Sword.TPrice);
+                                    Console.WriteLine("Damage:" + Sword.TDamage);
+
+                                    Console.WriteLine("Купить?");
+                                    Console.WriteLine("y");
+                                    Console.WriteLine("n");
+                                    string choise33 = Console.ReadLine();
+                                    switch (choise33)
+                                    {
+                                        case "y":
+                                            HaveSword = true;
+                                            player.Money -= Sword.TPrice;
+                                            break;
+
+                                        case "n":
+                                            break;
+                                    }
                                     break;
 
-                                case "n":
-                                    break;
                             }
                             break;
                         case 3:
-
-                            Console.WriteLine("Name:" + Sword.TName);
-                            Console.WriteLine("Price:" + Sword.TPrice);
-                            Console.WriteLine("Damage:" + Sword.TDamage);
-
-                            Console.WriteLine("Купить?");
-                            Console.WriteLine("y");
-                            Console.WriteLine("n");
-                            string choise3 = Console.ReadLine();
-                            switch (choise3)
+                            Console.WriteLine("1. Карта в Южный город");
+                            Console.WriteLine("2. Карта в Восточный город");
+                            int choise4 = int.Parse(Console.ReadLine());
+                            switch (choise4)
                             {
-                                case "y":
-                                    HaveSword = true;
-                                    player.Money -= Sword.TPrice;
-                                    break;
+                                case 1:
+                                    Console.WriteLine("Name:" + SouthTownMap.TName);
+                                    Console.WriteLine("Price:" + SouthTownMap.TPrice);
+                                    Console.WriteLine("Damage:" + SouthTownMap.TDamage);
 
-                                case "n":
+                                    Console.WriteLine("Купить?");
+                                    Console.WriteLine("y");
+                                    Console.WriteLine("n");
+                                    string choise44 = Console.ReadLine();
+                                    switch (choise44)
+                                    {
+                                        case "y":
+                                            Events.KnowSouthTown = true;
+                                            player.Money -= SouthTownMap.TPrice;
+                                            break;
+
+                                        case "n":
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    Console.WriteLine("Name:" + EastTownMap.TName);
+                                    Console.WriteLine("Price:" + EastTownMap.TPrice);
+                                    Console.WriteLine("Damage:" + EastTownMap.TDamage);
+
+                                    Console.WriteLine("Купить?");
+                                    Console.WriteLine("y");
+                                    Console.WriteLine("n");
+                                    string choise45 = Console.ReadLine();
+                                    switch (choise45)
+                                    {
+                                        case "y":
+                                            Events.KnowEastTown = true;
+                                            player.Money -= EastTownMap.TPrice;
+                                            break;
+
+                                        case "n":
+                                            break;
+                                    }
                                     break;
                             }
                             break;
                         case 4:
-                            Console.WriteLine("WIP");
+                            Console.WriteLine("1.Железо");
+                            Console.WriteLine("2.Золото");
+                            Console.WriteLine("3.Кристаллы");
+                            int choise5 = int.Parse(Console.ReadLine());
+                            switch (choise5)
+                            {
+                                case 1:
+                                    Console.WriteLine("Name:" + Iron.TName);
+                                    Console.WriteLine("Price:" + Iron.TPrice);
+                                    Console.WriteLine("Damage:" + Iron.TDamage);
+
+                                    Console.WriteLine("Купить?");
+                                    Console.WriteLine("y");
+                                    Console.WriteLine("n");
+                                    string choise55 = Console.ReadLine();
+                                    switch (choise55)
+                                    {
+                                        case "y":
+                                            player.Money -= Iron.TPrice;
+                                            break;
+
+                                        case "n":
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    Console.WriteLine("Name:" + Gold.TName);
+                                    Console.WriteLine("Price:" + Gold.TPrice);
+                                    Console.WriteLine("Damage:" + Gold.TDamage);
+
+                                    Console.WriteLine("Купить?");
+                                    Console.WriteLine("y");
+                                    Console.WriteLine("n");
+                                    string choise56 = Console.ReadLine();
+                                    switch (choise56)
+                                    {
+                                        case "y":
+                                            player.Money -= Gold.TPrice;
+                                            break;
+
+                                        case "n":
+                                            break;
+                                    }
+                                    break;
+                                case 3:
+                                    Console.WriteLine("Name:" + Crystal.TName);
+                                    Console.WriteLine("Price:" + Crystal.TPrice);
+                                    Console.WriteLine("Damage:" + Crystal.TDamage);
+
+                                    Console.WriteLine("Купить?");
+                                    Console.WriteLine("y");
+                                    Console.WriteLine("n");
+                                    string choise57 = Console.ReadLine();
+                                    switch (choise57)
+                                    {
+                                        case "y":
+                                            player.Money -= Crystal.TPrice;
+                                            break;
+
+                                        case "n":
+                                            break;
+                                    }
+                                    break;
+
+                            }
                             break;
                         case 5:
-                            Console.WriteLine("WIP");
-                            break;
-                        case 6:
                             break;
                     }
                 }
@@ -347,7 +488,42 @@ namespace Thing
                 }
             }
         }
+    class Market
+    {
+        public static void Shuk(Player player,List<Things> Invent)
+        {
+            Console.WriteLine("Вы пришли на рынок,здесь вы можете продать предметы которые хотите");
+
+            foreach(Things th in Invent)
+            {
+                Console.WriteLine(th.TName, "," + th.TPrice, "," + th.TQuality);
+                Console.WriteLine("Что хотите продать?");
+
+                string input = Console.ReadLine().ToLower();
+
+                if(input == "exit")
+                {
+                    return;
+                }
+                Things itemToSell = Invent.FirstOrDefault(t => t.TName.Equals(input, StringComparison.OrdinalIgnoreCase));
+
+                if (itemToSell != null)
+                {
+                    Invent.Remove(itemToSell);
+                    player.Money += itemToSell.TPrice;
+
+                    Console.WriteLine($"Вы продали {itemToSell.TName} за {itemToSell.TPrice} монет.");
+                    Console.WriteLine($"Ваш баланс: {player.Money}");
+                }
+                else
+                {
+                    Console.WriteLine("Такого предмета нет в инвентаре.");
+                }
+            }
+        }
+        }
+    }
 
     
-}
+
 
