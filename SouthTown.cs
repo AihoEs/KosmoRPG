@@ -93,8 +93,9 @@ namespace South
                 switch (choise)
                 {
                     case 1:
-                        Shop shoper = new Shop(0, 0, "null", 0);
-                        shoper.ShopWIP(player, Invent);
+                        Shop SouthTownShop = new Shop(5, 9, 18);
+
+                        SouthTownShop.ShopWIP(player, Invent);
                         break;
                     case 2:
                         Market.Shuk(player, Invent);

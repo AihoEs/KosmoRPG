@@ -24,8 +24,12 @@ namespace Thing
         public int EnergyAm;
         public int HPAM;
 
+        public int IronPrice;
+        public int GoldPrice;
+        public int CrystalPrice;
 
 
+       
         public Things(int tDamage, int tPrice, string tName, int tQuality)
         {
             TDamage = tDamage;
@@ -38,6 +42,12 @@ namespace Thing
             TName = tName;
             EnergyAm = energyAm;
             HPAM = hpAm;
+        }
+        public Things(int price, string name, int count)
+        {
+            TPrice = price;
+            TName = name;
+            TQuality = count;
         }
 
 
@@ -87,14 +97,33 @@ namespace Thing
     class Shop : Things
 
     {
+        public Things Iron { get; set; }
+        public Things Gold { get; set; }
+        public Things Crystal { get; set; }
+
+
         public static bool HaveSword = false;
         static Shop Sword = new Shop(20, 20, "Меч", 1);
         static Shop SouthTownMap = new Shop(0, 15, "Карта Южного города", 1);
         static Shop EastTownMap = new Shop(0, 15, "Карта Западного города", 1);
 
-        static Shop Iron = new Shop(0, 6, "Железо", 1);
-        static Shop Gold = new Shop(0, 9, "Золото", 1);
-        static Shop Crystal = new Shop(0, 13, "Кристалл", 1);
+
+
+        public int IronPrice { get; set; }
+        public int GoldPrice { get; set; }
+        public int CrystalPrice { get; set; }
+
+        public Shop(int ironPrice, int goldPrice, int crystalPrice)
+         : base(0, "Магазин", 0) 
+        {
+            IronPrice = ironPrice;
+            GoldPrice = goldPrice;
+            CrystalPrice = crystalPrice;
+
+            Iron = new Things(ironPrice, "Железо", 1);
+            Gold = new Things(goldPrice, "Золото", 1);
+            Crystal = new Things(crystalPrice, "Кристалл", 1);
+        }
 
         public Shop(int tDamage, int tPrice, string tName, int tQuality) : base(tDamage, tPrice, tName, tQuality)
         {
@@ -131,6 +160,9 @@ namespace Thing
                             Shop.Sword.TPrice += 4;
                             Shop.SouthTownMap.TPrice += 4;
                             Shop.EastTownMap.TPrice += 4;
+                            IronPrice += 4;
+                            GoldPrice += 4;
+                            CrystalPrice += 4;
                             break;
                         case PReputation.Citizen:
                             break;
@@ -140,6 +172,9 @@ namespace Thing
                             Shop.Sword.TPrice -= 2;
                             Shop.SouthTownMap.TPrice -= 2;
                             Shop.EastTownMap.TPrice -= 2;
+                            IronPrice -= 2;
+                            GoldPrice -= 2;
+                            CrystalPrice -= 2;
                             break;
                         case PReputation.Famous:
                             Food.WolfMeat.TPrice -= 4;
@@ -147,6 +182,9 @@ namespace Thing
                             Shop.Sword.TPrice -= 4;
                             Shop.SouthTownMap.TPrice -= 4;
                             Shop.EastTownMap.TPrice -= 4;
+                            IronPrice -= 4;
+                            GoldPrice -= 4;
+                            CrystalPrice -= 4;
 
                             break;
                     }
@@ -304,7 +342,7 @@ namespace Thing
                             {
                                 case 1:
                                     Console.WriteLine("Name:" + Iron.TName);
-                                    Console.WriteLine("Price:" + Iron.TPrice);
+                                    Console.WriteLine("Price:" + IronPrice);
                                     Console.WriteLine("Damage:" + Iron.TDamage);
 
                                     Console.WriteLine("Купить?");
@@ -314,7 +352,7 @@ namespace Thing
                                     switch (choise55)
                                     {
                                         case "y":
-                                            player.Money -= Iron.TPrice;
+                                            player.Money -= IronPrice;
                                             break;
 
                                         case "n":
@@ -323,7 +361,7 @@ namespace Thing
                                     break;
                                 case 2:
                                     Console.WriteLine("Name:" + Gold.TName);
-                                    Console.WriteLine("Price:" + Gold.TPrice);
+                                    Console.WriteLine("Price:" + GoldPrice);
                                     Console.WriteLine("Damage:" + Gold.TDamage);
 
                                     Console.WriteLine("Купить?");
@@ -333,7 +371,7 @@ namespace Thing
                                     switch (choise56)
                                     {
                                         case "y":
-                                            player.Money -= Gold.TPrice;
+                                            player.Money -= GoldPrice;
                                             break;
 
                                         case "n":
@@ -342,7 +380,7 @@ namespace Thing
                                     break;
                                 case 3:
                                     Console.WriteLine("Name:" + Crystal.TName);
-                                    Console.WriteLine("Price:" + Crystal.TPrice);
+                                    Console.WriteLine("Price:" + CrystalPrice);
                                     Console.WriteLine("Damage:" + Crystal.TDamage);
 
                                     Console.WriteLine("Купить?");
@@ -352,7 +390,7 @@ namespace Thing
                                     switch (choise57)
                                     {
                                         case "y":
-                                            player.Money -= Crystal.TPrice;
+                                            player.Money -= CrystalPrice;
                                             break;
 
                                         case "n":

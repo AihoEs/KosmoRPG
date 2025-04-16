@@ -32,6 +32,13 @@ namespace Programer
         Famous
 
     }
+
+    public enum City
+    {
+        NorthTown,
+        SouthTown,
+        EastTown
+    }
     class Player
     {
         

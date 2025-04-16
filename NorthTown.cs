@@ -93,8 +93,9 @@ namespace NT
                 switch (choise)
                 {
                     case 1:
-                        Shop shoper = new Shop(0,0,"null",0);
-                        shoper.ShopWIP(player,Invent);
+                       //Shop NorthTownShop = new Shop(7, 11, 14);
+
+                       // NorthTownShop.ShopWIP(player,Invent);
                         break;
                     case 2:
                         Market.Shuk(player, Invent);
