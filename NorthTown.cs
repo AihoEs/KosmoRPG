@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Thing;
 using Monster;
 using Event;
+using NTDB;
 
 namespace NT
 {
@@ -62,7 +63,19 @@ namespace NT
             
         }
         public static void City(Player player, List<Things> Invent)
+
+
         {
+
+            Dictionary<string, int> prices = ResourcePrice.GetPricesForCity("NorthTown", player);
+
+            
+            Shop northShop = new Shop(
+                ironPrice: prices.ContainsKey("Железо") ? prices["Железо"] : 0,  
+                goldPrice: prices.ContainsKey("Золото") ? prices["Золото"] : 0,   
+                crystalPrice: prices.ContainsKey("Кристалл") ? prices["Кристалл"] : 0 
+            );
+
             Console.WriteLine("Вы вошли в шумный город.Куда вы отправитесь?");
 
             while (true)
@@ -93,9 +106,9 @@ namespace NT
                 switch (choise)
                 {
                     case 1:
-                       //Shop NorthTownShop = new Shop(7, 11, 14);
+                       Shop NorthTownShop = new Shop(7, 11, 14);
 
-                       // NorthTownShop.ShopWIP(player,Invent);
+                        NorthTownShop.ShopWIP(player,Invent);
                         break;
                     case 2:
                         Market.Shuk(player, Invent);

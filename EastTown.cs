@@ -1,6 +1,7 @@
 ﻿using Event;
 using Fauna;
 using NT;
+using NTDB;
 using Programer;
 using System;
 using System.Collections.Generic;
@@ -39,14 +40,14 @@ namespace East
                         case Knowledge.Speaking:
                             Console.WriteLine("Вы поняли речь стражника и вежливо ответили.");
                             Console.WriteLine("Вас пропустили в город.");
-                            NorthTown.City(player, Invent);
+                            EastTown.City(player, Invent);
 
 
                             break;
 
                         case Knowledge.Native:
                             Console.WriteLine("Вы подошли к стражникам,которые стали вам уже чуть ли не друзьями,вы радостно обменялись приветствием и вошли в город");
-                            NorthTown.City(player, Invent);
+                            EastTown.City(player, Invent);
                             break;
 
                     }
@@ -63,6 +64,14 @@ namespace East
         }
         public static void City(Player player, List<Things> Invent)
         {
+            Dictionary<string, int> prices = ResourcePrice.GetPricesForCity("EastTown", player);
+
+
+            Shop northShop = new Shop(
+                ironPrice: prices.ContainsKey("Железо") ? prices["Железо"] : 0,
+                goldPrice: prices.ContainsKey("Золото") ? prices["Золото"] : 0,
+                crystalPrice: prices.ContainsKey("Кристалл") ? prices["Кристалл"] : 0);
+
             Console.WriteLine("Вы вошли в шумный город.Куда вы отправитесь?");
 
             while (true)

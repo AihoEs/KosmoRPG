@@ -532,10 +532,11 @@ namespace Thing
         {
             Console.WriteLine("Вы пришли на рынок,здесь вы можете продать предметы которые хотите");
 
-            foreach(Things th in Invent)
+            foreach (Things th in Invent)
             {
                 Console.WriteLine(th.TName, "," + th.TPrice, "," + th.TQuality);
                 Console.WriteLine("Что хотите продать?");
+            }
 
                 string input = Console.ReadLine().ToLower();
 
@@ -560,7 +561,7 @@ namespace Thing
             }
         }
         }
-    }
+    
 
     
 

@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Thing;
+using NTDB;
+using Npgsql;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace South
 {
@@ -39,14 +42,14 @@ namespace South
                         case Knowledge.Speaking:
                             Console.WriteLine("Вы поняли речь стражника и вежливо ответили.");
                             Console.WriteLine("Вас пропустили в город.");
-                            NorthTown.City(player, Invent);
+                            SouthTown.City(player, Invent);
 
 
                             break;
 
                         case Knowledge.Native:
                             Console.WriteLine("Вы подошли к стражникам,которые стали вам уже чуть ли не друзьями,вы радостно обменялись приветствием и вошли в город");
-                            NorthTown.City(player, Invent);
+                            SouthTown.City(player, Invent);
                             break;
 
                     }
@@ -63,6 +66,13 @@ namespace South
         }
         public static void City(Player player, List<Things> Invent)
         {
+            Dictionary<string, int> prices = ResourcePrice.GetPricesForCity("SouthTown", player);
+
+
+            Shop northShop = new Shop(
+                ironPrice: prices.ContainsKey("Железо") ? prices["Железо"] : 0,
+                goldPrice: prices.ContainsKey("Золото") ? prices["Золото"] : 0,
+                crystalPrice: prices.ContainsKey("Кристалл") ? prices["Кристалл"] : 0);
             Console.WriteLine("Вы вошли в шумный город.Куда вы отправитесь?");
 
             while (true)
@@ -93,7 +103,7 @@ namespace South
                 switch (choise)
                 {
                     case 1:
-                        Shop SouthTownShop = new Shop(5, 9, 18);
+                       Shop SouthTownShop = new Shop(5, 9, 18);
 
                         SouthTownShop.ShopWIP(player, Invent);
                         break;
